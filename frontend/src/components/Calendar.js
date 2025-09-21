@@ -7,7 +7,10 @@ import {
   Filter,
   CheckCircle2,
   Circle,
-  Play
+  Play,
+  Sparkles,
+  Target,
+  Star
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
@@ -95,6 +98,17 @@ const Calendar = () => {
     }
   };
 
+  const getCategoryGradient = (category) => {
+    switch (category) {
+      case 'DSA': return 'from-purple-500 to-purple-600';
+      case 'PROJECT': return 'from-blue-500 to-blue-600';
+      case 'LEARN': return 'from-green-500 to-green-600';
+      case 'OPS': return 'from-orange-500 to-orange-600';
+      case 'APPLY': return 'from-red-500 to-red-600';
+      default: return 'from-gray-500 to-gray-600';
+    }
+  };
+
   const getStatusIcon = (status) => {
     switch (status) {
       case 'COMPLETED': return <CheckCircle2 className="w-4 h-4 text-green-400" />;
@@ -111,116 +125,130 @@ const Calendar = () => {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
-    <div className="space-y-6 fade-in">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+    <div className="space-y-8 fade-in">
+      {/* Enhanced Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div className="relative">
+          <h1 className="text-4xl font-black bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
             Schedule Calendar
           </h1>
-          <p className="text-gray-400 mt-1">
-            Visual overview of your internship preparation timeline
-          </p>
+          <div className="flex items-center space-x-3 mt-2">
+            <div className="flex items-center space-x-2 text-gray-400">
+              <CalendarIcon className="w-4 h-4" />
+              <span className="text-sm font-medium">Visual overview of your internship preparation timeline</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Sparkles className="w-4 h-4 text-blue-400" />
+              <span className="text-sm font-medium text-blue-400">Interactive</span>
+            </div>
+          </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-2 flex-wrap">
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-32 bg-gray-800 border-gray-700">
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ALL">All Categories</SelectItem>
-              <SelectItem value="DSA">DSA</SelectItem>
-              <SelectItem value="PROJECT">Project</SelectItem>
-              <SelectItem value="LEARN">Learn</SelectItem>
-              <SelectItem value="OPS">Ops</SelectItem>
-              <SelectItem value="APPLY">Apply</SelectItem>
-            </SelectContent>
-          </Select>
+        {/* Enhanced Filters */}
+        <div className="flex gap-3 flex-wrap">
+          <div className="glass rounded-2xl p-1">
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="w-36 bg-transparent border-none text-white font-medium">
+                <Filter className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent className="glass-elevated border-white/20">
+                <SelectItem value="ALL">All Categories</SelectItem>
+                <SelectItem value="DSA">DSA</SelectItem>
+                <SelectItem value="PROJECT">Project</SelectItem>
+                <SelectItem value="LEARN">Learn</SelectItem>
+                <SelectItem value="OPS">Ops</SelectItem>
+                <SelectItem value="APPLY">Apply</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-32 bg-gray-800 border-gray-700">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ALL">All Status</SelectItem>
-              <SelectItem value="PENDING">Pending</SelectItem>
-              <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-              <SelectItem value="COMPLETED">Completed</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="glass rounded-2xl p-1">
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-32 bg-transparent border-none text-white font-medium">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent className="glass-elevated border-white/20">
+                <SelectItem value="ALL">All Status</SelectItem>
+                <SelectItem value="PENDING">Pending</SelectItem>
+                <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                <SelectItem value="COMPLETED">Completed</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Calendar View */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Enhanced Calendar View */}
         <div className="lg:col-span-2">
-          <Card className="glass border-purple-500/20">
-            <CardHeader>
+          <Card className="glass-elevated border-blue-500/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5" />
+            <CardHeader className="relative z-10">
               <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center space-x-2">
-                  <CalendarIcon className="w-5 h-5 text-purple-400" />
-                  <span>{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</span>
+                <CardTitle className="flex items-center space-x-4 text-2xl font-bold">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center glow">
+                    <CalendarIcon className="w-6 h-6 text-white" />
+                  </div>
+                  <span className="bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                    {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
+                  </span>
                 </CardTitle>
                 
                 <div className="flex space-x-2">
                   <Button
-                    variant="outline"
-                    size="sm"
                     onClick={() => navigateMonth(-1)}
-                    className="border-gray-700 hover:bg-gray-800"
+                    className="glass-interactive w-12 h-12 rounded-2xl p-0 border-white/10 hover:border-white/20"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-5 h-5" />
                   </Button>
                   <Button
-                    variant="outline"
-                    size="sm"
                     onClick={() => navigateMonth(1)}
-                    className="border-gray-700 hover:bg-gray-800"
+                    className="glass-interactive w-12 h-12 rounded-2xl p-0 border-white/10 hover:border-white/20"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-5 h-5" />
                   </Button>
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative z-10">
               {/* Day headers */}
-              <div className="grid grid-cols-7 gap-1 mb-2">
+              <div className="grid grid-cols-7 gap-2 mb-4">
                 {dayNames.map(day => (
-                  <div key={day} className="text-center text-sm font-medium text-gray-400 p-2">
+                  <div key={day} className="text-center text-sm font-bold text-gray-400 p-3">
                     {day}
                   </div>
                 ))}
               </div>
 
-              {/* Calendar grid */}
+              {/* Enhanced Calendar grid */}
               <div className="calendar-grid">
                 {calendarDays.map((day, index) => {
                   const dayTasks = getDayTasks(day);
                   const hasTasksClass = dayTasks.length > 0 ? 'has-tasks' : '';
                   const todayClass = isToday(day) ? 'today' : '';
-                  const currentMonthClass = isCurrentMonth(day) ? '' : 'opacity-30';
+                  const currentMonthClass = isCurrentMonth(day) ? '' : 'opacity-40';
                   
                   return (
                     <div
                       key={index}
-                      className={`calendar-day ${hasTasksClass} ${todayClass} ${currentMonthClass}`}
+                      className={`calendar-day ${hasTasksClass} ${todayClass} ${currentMonthClass} bounce-in`}
                       onClick={() => setSelectedDate(day)}
+                      style={{ animationDelay: `${index * 20}ms` }}
                     >
-                      <span className="text-sm font-medium">{day.getDate()}</span>
+                      <span className="text-sm font-bold relative z-10">{day.getDate()}</span>
                       {dayTasks.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mt-1">
-                          {dayTasks.slice(0, 3).map((task, i) => (
+                        <div className="flex flex-wrap gap-1 mt-2 relative z-10">
+                          {dayTasks.slice(0, 4).map((task, i) => (
                             <div
                               key={i}
                               className={`w-2 h-2 rounded-full ${getCategoryColor(task.category)} ${
-                                task.status === 'COMPLETED' ? 'opacity-50' : ''
+                                task.status === 'COMPLETED' ? 'opacity-60' : 'glow'
                               }`}
                             />
                           ))}
-                          {dayTasks.length > 3 && (
-                            <span className="text-xs text-gray-400">+{dayTasks.length - 3}</span>
+                          {dayTasks.length > 4 && (
+                            <span className="text-xs text-gray-300 font-bold">+{dayTasks.length - 4}</span>
                           )}
                         </div>
                       )}
@@ -232,62 +260,91 @@ const Calendar = () => {
           </Card>
         </div>
 
-        {/* Selected Date Tasks */}
-        <div>
-          <Card className="glass border-blue-500/20">
-            <CardHeader>
-              <CardTitle className="text-lg">
-                {selectedDate 
-                  ? selectedDate.toLocaleDateString('en-US', { 
-                      weekday: 'long', 
-                      month: 'short', 
-                      day: 'numeric' 
-                    })
-                  : 'Select a Date'
-                }
+        {/* Enhanced Selected Date Tasks */}
+        <div className="space-y-6">
+          <Card className="glass-elevated border-purple-500/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-transparent to-blue-500/5" />
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center space-x-3 text-xl font-bold">
+                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <span className="bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+                  {selectedDate 
+                    ? selectedDate.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        month: 'short', 
+                        day: 'numeric' 
+                      })
+                    : 'Select a Date'
+                  }
+                </span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative z-10">
               {selectedDate ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {getDayTasks(selectedDate).length === 0 ? (
-                    <div className="text-center py-8">
-                      <CalendarIcon className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                      <p className="text-gray-400">No tasks for this date</p>
+                    <div className="text-center py-12">
+                      <div className="w-16 h-16 bg-gradient-to-br from-gray-600 to-gray-700 rounded-3xl flex items-center justify-center mx-auto mb-6 glow">
+                        <CalendarIcon className="w-8 h-8 text-gray-400" />
+                      </div>
+                      <p className="text-lg font-semibold text-gray-300 mb-2">No tasks for this date</p>
+                      <p className="text-sm text-gray-500">Try selecting another date</p>
                     </div>
                   ) : (
-                    getDayTasks(selectedDate).map((task) => (
+                    getDayTasks(selectedDate).map((task, index) => (
                       <div
                         key={task.id}
                         onClick={() => handleTaskClick(task)}
-                        className="glass p-3 rounded-lg cursor-pointer hover:bg-white/5 transition-colors border border-white/10"
+                        className="glass-interactive p-4 rounded-2xl cursor-pointer hover:scale-102 transition-all duration-300 relative overflow-hidden group"
+                        style={{ animationDelay: `${index * 100}ms` }}
                       >
-                        <div className="flex items-start space-x-2">
-                          <div className="flex-shrink-0 mt-0.5">
-                            {getStatusIcon(task.status)}
+                        {/* Task gradient background */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${getCategoryGradient(task.category)} opacity-5 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl`} />
+                        
+                        <div className="relative z-10 flex items-start space-x-3">
+                          <div className="flex-shrink-0 mt-1">
+                            <div className="w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                              {getStatusIcon(task.status)}
+                            </div>
                           </div>
                           
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center space-x-2 mb-1">
+                            <div className="flex items-center space-x-2 mb-2">
                               <Badge 
-                                variant="secondary" 
-                                className={`text-xs ${getCategoryColor(task.category)} text-white`}
+                                className={`text-xs font-bold bg-gradient-to-r ${getCategoryGradient(task.category)} text-white border-none`}
                               >
                                 {task.category}
                               </Badge>
-                              <Badge variant="outline" className="text-xs">
+                              <Badge 
+                                className={`text-xs font-bold ${
+                                  task.priority === 3 
+                                    ? 'bg-gradient-to-r from-red-500/20 to-red-600/20 border-red-500/30 text-red-300' 
+                                    : task.priority === 2 
+                                      ? 'bg-gradient-to-r from-orange-500/20 to-orange-600/20 border-orange-500/30 text-orange-300'
+                                      : 'bg-gradient-to-r from-gray-500/20 to-gray-600/20 border-gray-500/30 text-gray-300'
+                                }`}
+                              >
                                 P{task.priority}
                               </Badge>
                             </div>
                             
-                            <p className={`text-sm ${
-                              task.status === 'COMPLETED' ? 'line-through text-gray-500' : 'text-gray-200'
+                            <p className={`text-sm font-medium leading-relaxed ${
+                              task.status === 'COMPLETED' ? 'line-through text-gray-500' : 'text-gray-100'
                             }`}>
                               {task.description}
                             </p>
                             
-                            <div className="text-xs text-gray-500 mt-1">
-                              Week {task.week_number} • {task.phase}
+                            <div className="flex items-center space-x-4 text-xs text-gray-500 mt-3">
+                              <div className="flex items-center space-x-1">
+                                <Target className="w-3 h-3" />
+                                <span>Week {task.week_number}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <Star className="w-3 h-3" />
+                                <span>{task.phase}</span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -296,39 +353,48 @@ const Calendar = () => {
                   )}
                 </div>
               ) : (
-                <div className="text-center py-8">
-                  <CalendarIcon className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                  <p className="text-gray-400">Click on a date to view tasks</p>
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-700 rounded-3xl flex items-center justify-center mx-auto mb-6 glow float">
+                    <CalendarIcon className="w-8 h-8 text-white" />
+                  </div>
+                  <p className="text-lg font-semibold text-gray-300 mb-2">Select a Date</p>
+                  <p className="text-sm text-gray-500">Click on any date to view tasks</p>
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Legend */}
-          <Card className="glass border-gray-500/20 mt-6">
-            <CardHeader>
-              <CardTitle className="text-sm">Category Legend</CardTitle>
+          {/* Enhanced Legend */}
+          <Card className="glass-elevated border-gray-500/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-transparent" />
+            <CardHeader className="relative z-10">
+              <CardTitle className="flex items-center space-x-3 text-lg font-bold">
+                <div className="w-6 h-6 bg-gradient-to-br from-gray-500 to-gray-600 rounded-lg flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+                <span>Category Legend</span>
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                <span className="text-sm text-gray-300">DSA Problems</span>
+            <CardContent className="space-y-4 relative z-10">
+              <div className="flex items-center space-x-3">
+                <div className="w-4 h-4 rounded-full bg-purple-500 glow"></div>
+                <span className="text-sm text-gray-200 font-medium">DSA Problems</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span className="text-sm text-gray-300">Projects</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-4 h-4 rounded-full bg-blue-500 glow"></div>
+                <span className="text-sm text-gray-200 font-medium">Projects</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-sm text-gray-300">Learning</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-4 h-4 rounded-full bg-green-500 glow"></div>
+                <span className="text-sm text-gray-200 font-medium">Learning</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-orange-500"></div>
-                <span className="text-sm text-gray-300">DevOps</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-4 h-4 rounded-full bg-orange-500 glow"></div>
+                <span className="text-sm text-gray-200 font-medium">DevOps</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span className="text-sm text-gray-300">Applications</span>
+              <div className="flex items-center space-x-3">
+                <div className="w-4 h-4 rounded-full bg-red-500 glow"></div>
+                <span className="text-sm text-gray-200 font-medium">Applications</span>
               </div>
             </CardContent>
           </Card>
