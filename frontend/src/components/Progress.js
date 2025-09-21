@@ -26,6 +26,7 @@ import {
   Tooltip, 
   ResponsiveContainer,
   PieChart as RechartsPieChart,
+  Pie,
   Cell,
   BarChart,
   Bar
