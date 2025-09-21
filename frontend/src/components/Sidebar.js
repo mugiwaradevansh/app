@@ -115,33 +115,37 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
                 `}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                {/* Icon with gradient background */}
-                <div className={`
-                  relative w-10 h-10 rounded-xl flex items-center justify-center
-                  bg-gradient-to-br ${item.gradient} opacity-80 group-hover:opacity-100
-                  transition-all duration-300 group-hover:scale-110
-                `}>
-                  <Icon className="w-5 h-5 text-white" />
-                  {/* Subtle glow effect */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                
-                {isOpen && (
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-sm leading-tight">{item.name}</div>
-                    <div className="text-xs text-gray-400 truncate mt-1 group-hover:text-gray-300 transition-colors">
-                      {item.description}
+                {({ isActive }) => (
+                  <>
+                    {/* Icon with gradient background */}
+                    <div className={`
+                      relative w-10 h-10 rounded-xl flex items-center justify-center
+                      bg-gradient-to-br ${item.gradient} opacity-80 group-hover:opacity-100
+                      transition-all duration-300 group-hover:scale-110
+                    `}>
+                      <Icon className="w-5 h-5 text-white" />
+                      {/* Subtle glow effect */}
+                      <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
-                  </div>
-                )}
+                    
+                    {isOpen && (
+                      <div className="min-w-0 flex-1">
+                        <div className="font-semibold text-sm leading-tight">{item.name}</div>
+                        <div className="text-xs text-gray-400 truncate mt-1 group-hover:text-gray-300 transition-colors">
+                          {item.description}
+                        </div>
+                      </div>
+                    )}
 
-                {/* Active indicator */}
-                <div className={`
-                  absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-8 
-                  bg-gradient-to-b from-purple-400 to-blue-400 rounded-l-full
-                  transition-all duration-300
-                  ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
-                `} />
+                    {/* Active indicator */}
+                    <div className={`
+                      absolute right-0 top-1/2 transform -translate-y-1/2 w-1 h-8 
+                      bg-gradient-to-b from-purple-400 to-blue-400 rounded-l-full
+                      transition-all duration-300
+                      ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}
+                    `} />
+                  </>
+                )}
               </NavLink>
             );
           })}
